@@ -50,16 +50,16 @@ class Traffic_flowRecognizer(object):
 
     def detect(self):
         ###对视频进行抽帧后，抽帧频率5fps，连续读取图片
-        WSI_MASK_PATH = 'top-down-test2'  # 存放图片的文件夹路径
+        WSI_MASK_PATH = 'left-right-test1'  # 存放图片的文件夹路径
         images = os.listdir(WSI_MASK_PATH)
-        images = sorted(images)
+        images.sort(key=lambda x:int(x.split('.')[0]))
         data_list = []
         for i in images:
             f = open(WSI_MASK_PATH + '/' + i, 'rb')
             img_str = base64.b64encode(f.read())
             data_list.append(img_str)
-            params = {'dynamic': 'true', 'area': '1,1,543,1,543,400,1,400', 'case_id': 1213, 'case_init': 'false',
-                      'image': data_list, 'show': 'true'}
+            params = {'dynamic': 'true', 'area': '1,543,400,543,400,1,1,1', 'case_id': 1018, 'case_init': 'false',
+                      'image': img_str, 'show': 'true'}
             tic = time.clock()
             rp_json = self.get_result(params)
             toc = time.clock()
